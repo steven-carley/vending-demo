@@ -3,6 +3,7 @@ package com.stevencarley.vendingdemo.model;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 /**
@@ -39,5 +40,13 @@ public enum Currency {
                     .orElse(null);
         }
         return currency;
+    }
+
+    public Coin toCoin() {
+        return Coin.builder()
+                .value(new DecimalFormat("#.00").format(this.value))
+                .diameter(new DecimalFormat("#.000").format(this.diameter))
+                .weight(new DecimalFormat("#.000").format(this.weight))
+                .build();
     }
 }

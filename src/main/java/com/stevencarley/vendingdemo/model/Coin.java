@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class Coin {
     private String weight;
     private String diameter;
+    private String value;
 }
