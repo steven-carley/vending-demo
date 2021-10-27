@@ -27,15 +27,12 @@ public class CoinInsertedEventListener {
     public void onCoinInsertedEvent(CoinInsertedEvent event) {
         log.debug("Received coinInsertedEvent");
         Currency currency = Currency.getCurrency(event.getCoin());
-        if (currency != null) {
-            if (currency.isValid()) {
-                transactionService.addToTransaction(currency);
-            }
-            else {
-                eventPublisher.publishEvent(new ReturnCoinEvent(this, currency.toCoin()));
-            }
-        } else {
+        if (currency == Currency.UNKNOWN) {
             eventPublisher.publishEvent(new ReturnCoinEvent(this, event.getCoin()));
+        } else if (currency.isValid()) {
+            transactionService.addToTransaction(currency);
+        } else {
+            eventPublisher.publishEvent(new ReturnCoinEvent(this, currency.toCoin()));
         }
     }
 }

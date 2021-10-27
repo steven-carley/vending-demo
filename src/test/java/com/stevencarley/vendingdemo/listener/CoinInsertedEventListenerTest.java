@@ -40,7 +40,7 @@ class CoinInsertedEventListenerTest {
 
     @Test
     void whenInsertedCoinIsUnknown() {
-        when(coinInsertedEvent.getCoin()).thenReturn(Coin.builder().weight(".001").diameter(".5").build());
+        when(coinInsertedEvent.getCoin()).thenReturn(Currency.UNKNOWN.toCoin());
         coinInsertedEventListener.onCoinInsertedEvent(coinInsertedEvent);
         verify(eventPublisher).publishEvent(any(ReturnCoinEvent.class));
     }

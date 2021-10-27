@@ -1,6 +1,7 @@
 package com.stevencarley.vendingdemo.controller;
 
 import com.stevencarley.vendingdemo.event.CoinInsertedEvent;
+import com.stevencarley.vendingdemo.event.ReturnAllCoinsEvent;
 import com.stevencarley.vendingdemo.model.Coin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,10 @@ public class CoinController {
     public void send(Coin coin) {
         log.debug("Received coin {}", coin);
         eventPublisher.publishEvent(new CoinInsertedEvent(this, coin));
+    }
+
+    @MessageMapping("/returncoins")
+    public void returnCoins() {
+        eventPublisher.publishEvent(new ReturnAllCoinsEvent(this));
     }
 }
