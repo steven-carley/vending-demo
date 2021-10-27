@@ -8,6 +8,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import static com.stevencarley.vendingdemo.AppConstants.DISPLAY_TOPIC;
+
 @Slf4j
 @Component
 public class DisplayEventListener {
@@ -32,6 +34,6 @@ public class DisplayEventListener {
         if (updateDisplayEvent.getMessage() != null) {
             message = updateDisplayEvent.getMessage();
         }
-        this.template.convertAndSend("/topic/display", message);
+        this.template.convertAndSend(DISPLAY_TOPIC, message);
     }
 }

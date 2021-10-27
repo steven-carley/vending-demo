@@ -10,6 +10,8 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
+import static com.stevencarley.vendingdemo.AppConstants.DISPLAY_TOPIC;
+
 @Component
 public class SubscribeEventListener {
 
@@ -24,13 +26,17 @@ public class SubscribeEventListener {
     @EventListener
     public void onSessionSubscribedEvent(SessionSubscribeEvent sessionSubscribeEvent) {
         Message<byte[]> message = sessionSubscribeEvent.getMessage();
-        StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+        StompHeaderAccessor accessor = getStompHeaderAccessor(message);
         StompCommand command = accessor.getCommand();
         if (command.equals(StompCommand.SUBSCRIBE)) {
             String destination = accessor.getDestination();
-            if ("/topic/display".equals(destination)) {
+            if (DISPLAY_TOPIC.equals(destination)) {
                 eventPublisher.publishEvent(new UpdateDisplayEvent(this, transactionService.getTotalCurrencies()));
             }
         }
+    }
+
+    StompHeaderAccessor getStompHeaderAccessor(Message<byte[]> message) {
+        return StompHeaderAccessor.wrap(message);
     }
 }
