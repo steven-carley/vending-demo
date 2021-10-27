@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Coin {
-    private String value;
+    private String weight;
+    private String diameter;
 }
