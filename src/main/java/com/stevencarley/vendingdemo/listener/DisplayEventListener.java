@@ -24,7 +24,7 @@ public class DisplayEventListener {
 
     @EventListener
     public void publishDisplayMessage(UpdateDisplayEvent updateDisplayEvent) {
-        log.info("Received updateDisplayEvent");
+        log.debug("Received updateDisplayEvent");
         String message = messageFormatterService.getDefaultMessage();
         if (updateDisplayEvent.getAmount() != null) {
             message = messageFormatterService.formatAmountMessage(updateDisplayEvent.getAmount());

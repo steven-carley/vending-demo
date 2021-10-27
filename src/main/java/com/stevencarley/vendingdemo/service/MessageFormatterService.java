@@ -3,13 +3,12 @@ package com.stevencarley.vendingdemo.service;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 @Service
 public class MessageFormatterService {
 
-    private static final String DEFAULT_MESSAGE = "INSERT COIN";
+    static final String DEFAULT_MESSAGE = "INSERT COIN";
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("$##0.00");
 
     public String getDefaultMessage() {
