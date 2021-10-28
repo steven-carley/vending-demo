@@ -21,7 +21,7 @@ public class CoinController {
     }
 
     @MessageMapping("/coin")
-    public void send(Coin coin) {
+    public void insertCoin(Coin coin) {
         log.debug("Received coin {}", coin);
         eventPublisher.publishEvent(new CoinInsertedEvent(this, coin));
     }

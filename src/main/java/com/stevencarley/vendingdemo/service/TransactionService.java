@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -23,15 +22,24 @@ public class TransactionService {
     }
 
     public BigDecimal addToTransaction(Currency currency) {
-        currencies.add(currency);
-        BigDecimal total = getTotalCurrencies();
-        UpdateDisplayEvent updateDisplayEvent = new UpdateDisplayEvent(this, total);
-        eventPublisher.publishEvent(updateDisplayEvent);
-        return total;
+        if (currency != null && currency != Currency.UNKNOWN) {
+            currencies.add(currency);
+            BigDecimal total = getTotalCurrencies();
+            UpdateDisplayEvent updateDisplayEvent = new UpdateDisplayEvent(this, total);
+            eventPublisher.publishEvent(updateDisplayEvent);
+            return total;
+        }
+        else {
+            return getTotalCurrencies();
+        }
     }
 
     public BigDecimal getTotalCurrencies() {
         return currencies.stream().map(Currency::getValue).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public int getNumberOfCurrencies() {
+        return currencies.size();
     }
 
     public void returnAllCoins() {

@@ -2,7 +2,6 @@ package com.stevencarley.vendingdemo.listener;
 
 import com.stevencarley.vendingdemo.event.CoinInsertedEvent;
 import com.stevencarley.vendingdemo.event.ReturnCoinEvent;
-import com.stevencarley.vendingdemo.model.Coin;
 import com.stevencarley.vendingdemo.model.Currency;
 import com.stevencarley.vendingdemo.service.TransactionService;
 import org.junit.jupiter.api.Test;
