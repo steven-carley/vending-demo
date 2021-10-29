@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 public class MessageFormatterService {
 
     static final String DEFAULT_MESSAGE = "INSERT COIN";
+    static final String PRICE_MESSAGE_PREFIX = "PRICE ";
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("$##0.00");
 
     public String getDefaultMessage() {
@@ -20,5 +21,12 @@ public class MessageFormatterService {
             return getDefaultMessage();
         }
         return DECIMAL_FORMAT.format(amount);
+    }
+
+    public String formatPriceMessage(BigDecimal amount) {
+        if (amount == null) {
+            return PRICE_MESSAGE_PREFIX + DECIMAL_FORMAT.format(BigDecimal.ZERO);
+        }
+        return PRICE_MESSAGE_PREFIX + DECIMAL_FORMAT.format(amount);
     }
 }

@@ -1,10 +1,10 @@
 package com.stevencarley.vendingdemo.service;
 
 import com.stevencarley.vendingdemo.event.ReturnCoinEvent;
-import com.stevencarley.vendingdemo.model.Currency;
 import com.stevencarley.vendingdemo.event.UpdateDisplayEvent;
+import com.stevencarley.vendingdemo.event.publisher.VendingEventPublisher;
+import com.stevencarley.vendingdemo.model.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,10 +14,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Service
 public class TransactionService {
     private Queue<Currency> currencies = new ConcurrentLinkedQueue<>();
-    private ApplicationEventPublisher eventPublisher;
+    private VendingEventPublisher eventPublisher;
 
     @Autowired
-    public TransactionService(ApplicationEventPublisher eventPublisher) {
+    public TransactionService(VendingEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
     }
 
@@ -40,6 +40,10 @@ public class TransactionService {
 
     public int getNumberOfCurrencies() {
         return currencies.size();
+    }
+
+    public void clearCurrencies() {
+        currencies.clear();
     }
 
     public void returnAllCoins() {

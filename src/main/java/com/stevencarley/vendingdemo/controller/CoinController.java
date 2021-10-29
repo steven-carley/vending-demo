@@ -2,10 +2,10 @@ package com.stevencarley.vendingdemo.controller;
 
 import com.stevencarley.vendingdemo.event.CoinInsertedEvent;
 import com.stevencarley.vendingdemo.event.ReturnAllCoinsEvent;
+import com.stevencarley.vendingdemo.event.publisher.VendingEventPublisher;
 import com.stevencarley.vendingdemo.model.Coin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class CoinController {
 
-    private final ApplicationEventPublisher eventPublisher;
+    private final VendingEventPublisher eventPublisher;
 
     @Autowired
-    public CoinController(ApplicationEventPublisher eventPublisher) {
+    public CoinController(VendingEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
     }
 

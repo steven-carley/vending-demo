@@ -1,12 +1,12 @@
 package com.stevencarley.vendingdemo.listener;
 
-import com.stevencarley.vendingdemo.event.ReturnCoinEvent;
-import com.stevencarley.vendingdemo.model.Currency;
 import com.stevencarley.vendingdemo.event.CoinInsertedEvent;
+import com.stevencarley.vendingdemo.event.ReturnCoinEvent;
+import com.stevencarley.vendingdemo.event.publisher.VendingEventPublisher;
+import com.stevencarley.vendingdemo.model.Currency;
 import com.stevencarley.vendingdemo.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 public class CoinInsertedEventListener {
 
     private final TransactionService transactionService;
-    private final ApplicationEventPublisher eventPublisher;
+    private final VendingEventPublisher eventPublisher;
 
     @Autowired
-    public CoinInsertedEventListener(TransactionService transactionService, ApplicationEventPublisher eventPublisher) {
+    public CoinInsertedEventListener(TransactionService transactionService, VendingEventPublisher eventPublisher) {
         this.transactionService = transactionService;
         this.eventPublisher = eventPublisher;
     }

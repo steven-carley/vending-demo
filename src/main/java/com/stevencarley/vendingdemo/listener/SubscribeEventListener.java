@@ -1,8 +1,8 @@
 package com.stevencarley.vendingdemo.listener;
 
 import com.stevencarley.vendingdemo.event.UpdateDisplayEvent;
+import com.stevencarley.vendingdemo.event.publisher.VendingEventPublisher;
 import com.stevencarley.vendingdemo.service.TransactionService;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -16,9 +16,10 @@ import static com.stevencarley.vendingdemo.AppConstants.DISPLAY_TOPIC;
 public class SubscribeEventListener {
 
     private final TransactionService transactionService;
-    private final ApplicationEventPublisher eventPublisher;
+    private final VendingEventPublisher eventPublisher;
 
-    public SubscribeEventListener(TransactionService transactionService, ApplicationEventPublisher eventPublisher) {
+    public SubscribeEventListener(TransactionService transactionService,
+                                  VendingEventPublisher eventPublisher) {
         this.transactionService = transactionService;
         this.eventPublisher = eventPublisher;
     }

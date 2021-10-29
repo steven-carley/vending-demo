@@ -2,13 +2,13 @@ package com.stevencarley.vendingdemo.listener;
 
 import com.stevencarley.vendingdemo.event.ReturnAllCoinsEvent;
 import com.stevencarley.vendingdemo.event.UpdateDisplayEvent;
+import com.stevencarley.vendingdemo.event.publisher.VendingEventPublisher;
 import com.stevencarley.vendingdemo.service.TransactionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEventPublisher;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -23,7 +23,7 @@ class ReturnAllCoinsEventListenerTest {
     TransactionService transactionService;
 
     @Mock
-    ApplicationEventPublisher eventPublisher;
+    VendingEventPublisher eventPublisher;
 
     @Mock
     ReturnAllCoinsEvent returnAllCoinsEvent;

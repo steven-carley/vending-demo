@@ -1,8 +1,6 @@
 package com.stevencarley.vendingdemo.listener;
 
 import com.stevencarley.vendingdemo.event.ReturnCoinEvent;
-import com.stevencarley.vendingdemo.event.UpdateDisplayEvent;
-import com.stevencarley.vendingdemo.service.MessageFormatterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;

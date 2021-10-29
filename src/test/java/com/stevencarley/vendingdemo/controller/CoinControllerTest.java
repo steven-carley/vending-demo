@@ -2,6 +2,7 @@ package com.stevencarley.vendingdemo.controller;
 
 import com.stevencarley.vendingdemo.event.CoinInsertedEvent;
 import com.stevencarley.vendingdemo.event.ReturnAllCoinsEvent;
+import com.stevencarley.vendingdemo.event.publisher.VendingEventPublisher;
 import com.stevencarley.vendingdemo.model.Coin;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,9 +11,8 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEventPublisher;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 class CoinControllerTest {
 
     @Mock
-    ApplicationEventPublisher eventPublisher;
+    VendingEventPublisher eventPublisher;
 
     @InjectMocks
     CoinController coinController;
