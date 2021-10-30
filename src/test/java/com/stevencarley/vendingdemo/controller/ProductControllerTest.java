@@ -1,7 +1,7 @@
 package com.stevencarley.vendingdemo.controller;
 
 import com.stevencarley.vendingdemo.model.Product;
-import com.stevencarley.vendingdemo.service.ProductsService;
+import com.stevencarley.vendingdemo.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,20 +22,20 @@ class ProductControllerTest {
     ProductController productController;
 
     @Mock
-    ProductsService productsService;
+    ProductService productService;
 
     @Test
     void purchaseProductWillPurchaseProduct() {
         productController.purchaseProduct("1");
-        verify(productsService).purchaseProduct("1");
+        verify(productService).purchaseProduct("1");
     }
 
     @Test
     void getProductsWillGetProducts() {
         var product = Product.builder().id("1").price(BigDecimal.ONE).description("test").build();
-        when(productsService.getProducts()).thenReturn(List.of(product));
+        when(productService.getProducts()).thenReturn(List.of(product));
         List<Product> result = productController.getProducts();
         assertEquals(List.of(product), result, "Expecting products to match");
-        verify(productsService).getProducts();
+        verify(productService).getProducts();
     }
 }

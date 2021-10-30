@@ -1,0 +1,19 @@
+default:
+  message:
+    delay: 3
+
+product:
+  products:
+    -
+      id: 1
+      description: cola
+      price: 1.00
+    -
+      id: 2
+      description: chips
+      price: 0.5
+    -
+      id: 3
+      description: candy
+      price: 0.65
+  defaultStock: 3

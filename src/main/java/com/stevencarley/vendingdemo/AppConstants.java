@@ -8,6 +8,6 @@ public final class AppConstants {
     public static final String RETURN_TOPIC = "/topic/return";
 
     public static final String THANK_YOU_MESSAGE = "THANK YOU";
-
-    public static final int SECONDS_BETWEEN_MESSAGES = 5;
+    public static final String SOLD_OUT_MESSAGE = "SOLD OUT";
+    public static final String EXACT_CHANGE_MESSAGE = "EXACT CHANGE ONLY";
 }

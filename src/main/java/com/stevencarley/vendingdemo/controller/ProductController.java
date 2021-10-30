@@ -1,7 +1,7 @@
 package com.stevencarley.vendingdemo.controller;
 
 import com.stevencarley.vendingdemo.model.Product;
-import com.stevencarley.vendingdemo.service.ProductsService;
+import com.stevencarley.vendingdemo.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -17,20 +17,25 @@ import java.util.List;
 @CrossOrigin(originPatterns = "http://localhost:*")
 public class ProductController {
 
-    private final ProductsService productsService;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductsService productsService) {
-        this.productsService = productsService;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @MessageMapping("/purchase/{id}")
     public void purchaseProduct(@DestinationVariable String id) {
-        productsService.purchaseProduct(id);
+        productService.purchaseProduct(id);
+    }
+
+    @MessageMapping("/resetInventory")
+    public void resetInventory() {
+        productService.resetInventory();
     }
 
     @GetMapping("/products")
     public List<Product> getProducts() {
-        return productsService.getProducts();
+        return productService.getProducts();
     }
 }
