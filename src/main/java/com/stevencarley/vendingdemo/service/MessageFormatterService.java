@@ -1,19 +1,26 @@
 package com.stevencarley.vendingdemo.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
+import static com.stevencarley.vendingdemo.AppConstants.*;
+
 @Service
 public class MessageFormatterService {
-
-    static final String DEFAULT_MESSAGE = "INSERT COIN";
-    static final String PRICE_MESSAGE_PREFIX = "PRICE ";
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("$##0.00");
 
+    private final ChangeService changeService;
+
+    @Autowired
+    public MessageFormatterService(ChangeService changeService) {
+        this.changeService = changeService;
+    }
+
     public String getDefaultMessage() {
-        return DEFAULT_MESSAGE;
+        return changeService.canMakeChange() ? DEFAULT_MESSAGE : EXACT_CHANGE_MESSAGE;
     }
 
     public String formatAmountMessage(BigDecimal amount) {

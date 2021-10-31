@@ -19,8 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.stevencarley.vendingdemo.AppConstants.SOLD_OUT_MESSAGE;
-import static com.stevencarley.vendingdemo.AppConstants.THANK_YOU_MESSAGE;
+import static com.stevencarley.vendingdemo.AppConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -93,6 +92,7 @@ class ProductServiceTest {
 
     @Test
     void purchaseProductWhenIdExistsAndHasFundsAndHasInventory() {
+        when(changeService.canMakeChange()).thenReturn(true);
         when(productRepository.getProduct(any())).thenReturn(expectedProducts.get(1));
         when(productRepository.getProductCount(any())).thenReturn(1);
         when(productRepository.buyProduct(any())).thenReturn(true);
@@ -112,6 +112,23 @@ class ProductServiceTest {
     }
 
     @Test
+    void purchaseProductWhenIdExistsAndHasFundsAndHasInventoryAndCannotMakeChange() {
+        when(changeService.canMakeChange()).thenReturn(false);
+        when(productRepository.getProduct(any())).thenReturn(expectedProducts.get(1));
+        when(productRepository.getProductCount(any())).thenReturn(1);
+        when(transactionService.getTotalCurrencies()).thenReturn(new BigDecimal("1.00"));
+        productService.purchaseProduct("2");
+        verify(eventPublisher).publishEvent(applicationEventArgumentCaptor.capture());
+        assertEquals(EXACT_CHANGE_MESSAGE,
+                ((UpdateDisplayEvent) applicationEventArgumentCaptor.getValue()).getMessage(),
+                "Expecting thank you message");
+        verify(eventPublisher).publishEventAfterDelay(any(UpdateDisplayEvent.class));
+        verify(productRepository).getProduct("2");
+        verify(productRepository, never()).buyProduct(any());
+        verify(changeService, never()).makeAndDispenseChange(any(), any());
+    }
+
+    @Test
     void purchaseProductWhenIdExistsAndNoInventory() {
         when(productRepository.getProduct(any())).thenReturn(expectedProducts.get(1));
         when(productRepository.getProductCount(any())).thenReturn(0);
@@ -125,6 +142,7 @@ class ProductServiceTest {
 
     @Test
     void purchaseProductWhenIdExistsAndHasFundsAndDoesNotHaveInventory() {
+        when(changeService.canMakeChange()).thenReturn(true);
         when(productRepository.getProduct(any())).thenReturn(expectedProducts.get(1));
         when(productRepository.getProductCount(any())).thenReturn(1);
         when(productRepository.buyProduct(any())).thenReturn(false);
@@ -141,6 +159,7 @@ class ProductServiceTest {
 
     @Test
     void purchaseProductWhenIdExistsAndDoesNotHaveFunds() {
+        when(changeService.canMakeChange()).thenReturn(true);
         when(productRepository.getProduct(any())).thenReturn(expectedProducts.get(0));
         when(productRepository.getProductCount(any())).thenReturn(1);
         when(transactionService.getTotalCurrencies()).thenReturn(BigDecimal.ZERO);

@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -52,5 +54,9 @@ public class TransactionService {
             eventPublisher.publishEvent(new ReturnCoinEvent(this, iterator.next().toCoin()));
             iterator.remove();
         }
+    }
+
+    public List<Currency> getCurrencies() {
+        return currencies.stream().collect(Collectors.toList());
     }
 }

@@ -6,6 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparing;
 
 /**
  * Coin specifications taken from https://www.usmint.gov/learn/coin-and-medal-programs/coin-specifications
@@ -61,5 +65,12 @@ public enum Currency {
                 .diameter(new DecimalFormat("#.000").format(this.diameter))
                 .weight(new DecimalFormat("#.000").format(this.weight))
                 .build();
+    }
+
+    public static List<Currency> getValidDescendingSortedCurrencies() {
+        return Arrays.stream(Currency.values())
+                .filter(Currency::isValid)
+                .sorted(comparing(Currency::getValue).reversed())
+                .collect(Collectors.toList());
     }
 }

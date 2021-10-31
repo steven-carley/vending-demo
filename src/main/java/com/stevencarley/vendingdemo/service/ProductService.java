@@ -1,5 +1,6 @@
 package com.stevencarley.vendingdemo.service;
 
+import com.stevencarley.vendingdemo.AppConstants;
 import com.stevencarley.vendingdemo.event.DispenseProductEvent;
 import com.stevencarley.vendingdemo.event.UpdateDisplayEvent;
 import com.stevencarley.vendingdemo.event.publisher.VendingEventPublisher;
@@ -49,6 +50,11 @@ public class ProductService {
                 return false;
             }
             var totalAmount = transactionService.getTotalCurrencies();
+            if (!changeService.canMakeChange() && product.getPrice().compareTo(totalAmount) != 0) {
+                eventPublisher.publishEvent(new UpdateDisplayEvent(this, AppConstants.EXACT_CHANGE_MESSAGE));
+                eventPublisher.publishEventAfterDelay(new UpdateDisplayEvent(this, transactionService.getTotalCurrencies()));
+                return false;
+            }
             if (product.getPrice().compareTo(totalAmount) <= 0) {
                 return buyProduct(product, totalAmount);
             }
