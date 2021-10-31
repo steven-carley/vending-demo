@@ -6,6 +6,7 @@ public final class AppConstants {
 
     public static final String DISPLAY_TOPIC = "/topic/display";
     public static final String RETURN_TOPIC = "/topic/return";
+    public static final String PRODUCT_TOPIC = "/topic/product";
 
     public static final String THANK_YOU_MESSAGE = "THANK YOU";
     public static final String SOLD_OUT_MESSAGE = "SOLD OUT";

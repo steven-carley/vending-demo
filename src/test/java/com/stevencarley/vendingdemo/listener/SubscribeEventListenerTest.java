@@ -1,7 +1,10 @@
 package com.stevencarley.vendingdemo.listener;
 
+import com.stevencarley.vendingdemo.event.GetProductEvent;
 import com.stevencarley.vendingdemo.event.UpdateDisplayEvent;
 import com.stevencarley.vendingdemo.event.publisher.VendingEventPublisher;
+import com.stevencarley.vendingdemo.model.Product;
+import com.stevencarley.vendingdemo.service.ProductService;
 import com.stevencarley.vendingdemo.service.TransactionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +17,10 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static com.stevencarley.vendingdemo.AppConstants.DISPLAY_TOPIC;
+import static com.stevencarley.vendingdemo.AppConstants.PRODUCT_TOPIC;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -30,6 +35,9 @@ class SubscribeEventListenerTest {
 
     @Mock
     TransactionService transactionService;
+
+    @Mock
+    ProductService productService;
 
     @Mock
     SessionSubscribeEvent sessionSubscribeEvent;
@@ -50,6 +58,18 @@ class SubscribeEventListenerTest {
         when(transactionService.getTotalCurrencies()).thenReturn(BigDecimal.ZERO);
         subscribeEventListenerSpy.onSessionSubscribedEvent(sessionSubscribeEvent);
         verify(eventPublisher).publishEvent(any(UpdateDisplayEvent.class));
+    }
+
+    @Test
+    void willGetProductEventOnProductTopicSessionSubscribe() {
+        SubscribeEventListener subscribeEventListenerSpy = spy(subscribeEventListener);
+        when(sessionSubscribeEvent.getMessage()).thenReturn(message);
+        when(subscribeEventListenerSpy.getStompHeaderAccessor(any())).thenReturn(stompHeaderAccessor);
+        when(stompHeaderAccessor.getCommand()).thenReturn(StompCommand.SUBSCRIBE);
+        when(stompHeaderAccessor.getDestination()).thenReturn(PRODUCT_TOPIC);
+        when(productService.getProducts()).thenReturn(List.of(Product.builder().build()));
+        subscribeEventListenerSpy.onSessionSubscribedEvent(sessionSubscribeEvent);
+        verify(eventPublisher).publishEvent(any(GetProductEvent.class));
     }
 
     @Test
