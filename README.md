@@ -2,7 +2,7 @@ Vending Machine Demo
 ===================
 
 A java spring boot implementation of a Vending Machine as described by
-https://github.com/guyroyse/vending-machine-katahttps://github.com/guyroyse/vending-machine-kata
+https://github.com/guyroyse/vending-machine-kata
 
 An Angular Frontend is located at https://github.com/steven-carley/vending-demo-ui
 
